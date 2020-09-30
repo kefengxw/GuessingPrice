@@ -8,7 +8,7 @@ import com.WelcomePage.Companion.USERNAME
 import com.r.listview.R
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_welcome_page.*
-
+//
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

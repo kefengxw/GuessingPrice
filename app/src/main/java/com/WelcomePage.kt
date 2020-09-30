@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.r.listview.R
 import kotlinx.android.synthetic.main.activity_welcome_page.*
-
+//Welcome page for the user to input username, transfer username to the next activity-MainActivity
 class WelcomePage : AppCompatActivity() {
 
 
