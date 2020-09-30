@@ -10,7 +10,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.r.listview.R
 import kotlinx.android.synthetic.main.exemple_item.view.*
 
-class ExampleAdapter(private val exampleList:List<ExampleItem>) : RecyclerView.Adapter<ExampleAdapter.ExampleViewHolder>(){
+class ExampleAdapter(
+    private val exampleList:List<ExampleItem>,
+    private val listener:OnItemClickListener
+    ) : RecyclerView.Adapter<ExampleAdapter.ExampleViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExampleViewHolder {
        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.exemple_item,parent,false)
@@ -30,9 +33,26 @@ class ExampleAdapter(private val exampleList:List<ExampleItem>) : RecyclerView.A
 
     }
     override fun getItemCount() = exampleList.size
-    class ExampleViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
+    inner class ExampleViewHolder(itemView: View):RecyclerView.ViewHolder(itemView),
+        View.OnClickListener{
         val imageView:ImageView = itemView.image_view
         val textView1:TextView =itemView.text_view_1
         val textView2:TextView= itemView.text_view_2
+
+        init{
+            itemView.setOnClickListener(this)
+        }
+
+        override fun onClick(v: View?) {
+            val position = adapterPosition
+            if(position != RecyclerView.NO_POSITION){
+                listener.onItemClick(position)
+            }
+
+        }
+    }
+
+    interface OnItemClickListener{
+        fun onItemClick(position: Int)
     }
 }

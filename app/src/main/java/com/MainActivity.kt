@@ -1,15 +1,23 @@
 package com
 
 import android.os.Bundle
+import android.view.View
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.WelcomePage.Companion.USERNAME
 import com.r.listview.R
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_welcome_page.*
+import kotlin.random.Random
+
 //
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(),ExampleAdapter.OnItemClickListener{
+
+    private val exampleList=generateDummyList(10)
+    private val adapter = ExampleAdapter(exampleList,this)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -19,12 +27,41 @@ class MainActivity : AppCompatActivity() {
 
         title="Welcome $username!"
 
-        val exampleList=generateDummyList(10)
-        recycler_view.adapter=ExampleAdapter(exampleList)
-        recycler_view.layoutManager= LinearLayoutManager(this)
+        //set recyclerviews features, for example, adapter, layoutManager, setHasFixedSize.
+        //
+        recycler_view.adapter = adapter
+        recycler_view.layoutManager = GridLayoutManager(this,2)
         recycler_view.setHasFixedSize(true)
 }
-    private fun generateDummyList(size:Int):List<ExampleItem>{
+
+    fun insertItem(view:View){
+        val index = Random.nextInt(8)
+
+        val newItem = ExampleItem(
+            R.drawable.ic_android,
+            "New item at position $index",
+            "Line 2"
+        )
+
+        exampleList.add(index, newItem)
+        adapter.notifyItemInserted(index)
+    }
+
+    fun removeItem(view: View){
+        val index =Random.nextInt(8)
+
+        exampleList.removeAt(index)
+        adapter.notifyItemRemoved(index)
+    }
+
+    override fun onItemClick(position: Int) {
+        Toast.makeText(this,"Item $position clicked", Toast.LENGTH_SHORT).show()
+        val clickedItem = exampleList[position]
+        clickedItem.text1 = "Clicked"
+        adapter.notifyItemChanged(position)
+    }
+
+    private fun generateDummyList(size:Int):ArrayList<ExampleItem>{
         val list = ArrayList<ExampleItem>()
         for (i in 0 until size){
             val drawable =when(i%3){

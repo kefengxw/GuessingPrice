@@ -22,7 +22,7 @@ class WelcomePage : AppCompatActivity() {
 
             val intent:Intent= Intent(this, MainActivity::class.java)
          //send intent and "username" from here
-            intent.putExtra(USERNAME,username)
+            intent.putExtra(USERNAME, username)
 
             startActivity(intent)
 
